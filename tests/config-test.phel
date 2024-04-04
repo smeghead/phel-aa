@@ -1,0 +1,7 @@
+(ns phel-aa\config\tests
+  (:require phel\test :refer [deftest is])
+  (:require phel-aa\config))
+
+(deftest config-filename-test
+  (is (= 1 (config/get1))))
+

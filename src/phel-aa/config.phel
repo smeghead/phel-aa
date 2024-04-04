@@ -1,0 +1,6 @@
+(ns phel-aa\config)
+
+
+(defn get1 []
+      1)
+

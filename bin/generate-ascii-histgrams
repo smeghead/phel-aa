@@ -1,0 +1,9 @@
+#/usr/bin/bash
+dir=$(cd $(dirname $(readlink -f $0));pwd)
+if [ -x $dir/../vendor/bin/phel ]; then
+  phel=$dir/../vendor/bin/phel
+else
+  phel=$dir/../../../bin/phel
+fi
+
+cd $dir/.. && $phel run -- $dir/../src/phel-aa/main.phel $@
