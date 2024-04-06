@@ -6,4 +6,4 @@ else
   phel=$dir/../../../bin/phel
 fi
 
-cd $dir/.. && $phel run -- $dir/../src/phel-aa/main.phel $@
+cd $dir/.. && $phel run -- $dir/../src/phel-aa/generate-ascii-images.phel $@
