@@ -1,4 +1,5 @@
-(ns phel-aa\generate-ascii-images)
+(ns phel-aa\generate-ascii-images
+  (:require phel-aa\image-block))
 
 (def output-directory (format "%s/../../material" __DIR__))
 
@@ -7,21 +8,30 @@
 
 (def chars (values (php-array-to-map (php/str_split "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"))))
 
-(def width 42)
-(def height 42)
 (def font-size 25)
 (def width-offset 5)
 (def height-offset 30)
 
+(defn output-data-file [c im]
+  (let [filename (format "%s/%s.json" output-directory (php/ord c))
+        hist (map (fn [[x y]]
+               (let [rgb (php/imagecolorat im x y)]
+                 (image-block/get-rgb-average rgb)))
+               (image-block/get-points))
+        data {"char" c "hist" (to-php-array hist)}]
+    (php/file_put_contents filename (php/json_encode (to-php-array data)))))
+
 (defn output-char [c]
-  (let [im (php/imagecreatetruecolor width height)
+  (let [im (php/imagecreatetruecolor image-block/width image-block/height)
         white (php/imagecolorallocate im 255 255 255)
         black (php/imagecolorallocate im 0 0 0)
         font "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
         filename (format "%s/%s.png" output-directory (php/ord c))]
     (println filename)
-    (php/imagefilledrectangle im 0 0 (dec width) (dec height) white)
+    (php/imagefilledrectangle im 0 0 (dec image-block/width) (dec image-block/height) white)
     (php/imagettftext im font-size 0 width-offset height-offset black font c)
+    (php/imagefilter im php/IMG_FILTER_PIXELATE image-block/block)
+    (output-data-file c im)
     (php/imagepng im filename)
     (php/imagedestroy im)))
 
