@@ -1,0 +1,19 @@
+(ns phel-aa\image-reader\tests
+  (:require phel\test :refer [deftest is])
+  (:require phel-aa\image-block)
+  #(:require phel-aa\image-reader)
+  )
+
+(def material-directory (format "%s/../material" __DIR__))
+
+(deftest a-image-diff
+  (is (= 1 1))
+  (let [filename (format "%s/%d.png" material-directory (php/ord "A"))
+        im (php/imagecreatefrompng filename)
+        hist (map (fn [[x y]]
+                    (let [rgb (php/imagecolorat im x y)]
+                      (image-block/get-rgb-average rgb)))
+                  (image-block/get-points))]
+    (is (= "/usr/src/tests/../material/65.png" filename))
+    (is (= [255 255 255 255 255 255 248 0 255 255 255 178 0 255 255 255 255 255 255 255 255 255 255 255 255] hist))))
+
