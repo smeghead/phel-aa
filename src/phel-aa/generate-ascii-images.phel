@@ -30,7 +30,8 @@
     (println filename)
     (php/imagefilledrectangle im 0 0 (dec image-block/width) (dec image-block/height) white)
     (php/imagettftext im font-size 0 width-offset height-offset black font c)
-    (php/imagefilter im php/IMG_FILTER_PIXELATE image-block/block)
+    (dofor [i :range [1 20]]
+      (php/imagefilter im php/IMG_FILTER_GAUSSIAN_BLUR))
     (output-data-file c im)
     (php/imagepng im filename)
     (php/imagedestroy im)))
