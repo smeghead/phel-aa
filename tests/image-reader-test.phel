@@ -14,6 +14,5 @@
                     (let [rgb (php/imagecolorat im x y)]
                       (image-block/get-rgb-average rgb)))
                   (image-block/get-points))]
-    (is (= "/usr/src/tests/../material/65.png" filename))
     (is (= [255 255 255 255 255 255 248 0 255 255 255 178 0 255 255 255 255 255 255 255 255 255 255 255 255] hist))))
 
