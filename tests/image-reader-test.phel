@@ -14,11 +14,11 @@
                   (image-block/get-points))]
     (is (= [249 248 239 238 251 233 119 74 219 251 239 156 82 206 251 250 249 246 245 251 254 253 252 252 252] hist))))
 
-(deftest php-logo-image-get-blocks
+(deftest php-logo-image-get-block-points
   (let [filename "tests/PHP-logo.png"
-        blocks (image-reader/get-blocks filename)]
-    (is (= 5 (count blocks)))
-    (is (= 10 (count (blocks 0))))
+        blocks (image-reader/get-block-points filename)]
+    (is (= 12 (count blocks)))
+    (is (= 23 (count (blocks 0))))
     (let [p00 (get-in blocks [0 0])]
       (is (= 0 (p00 :w))) 
       (is (= 0 (p00 :h))))
@@ -31,5 +31,5 @@
         image (image-reader/create-image filename)
         block-point (image-reader/block-point 0 0)
         hist (image-reader/convert-to-hist image block-point)]
-    (is (= [255 255 255 254 255 255 217 140 140 131 255 140 0 0 220 255 140 140 0 140 244 140 246 53 140] hist))))
+    (is (= [255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255] hist))))
 

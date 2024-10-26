@@ -10,3 +10,4 @@
   (let [dict (similar-chars/get-dict)
         a-hist [249 248 239 238 251 233 119 74 219 251 239 156 82 206 251 250 249 246 245 251 254 253 252 252 252]]
     (is (= "A" (similar-chars/get-similar-char dict a-hist)))))
+

@@ -1,0 +1,23 @@
+(ns phel-aa\image\tests
+  (:require phel\test :refer [deftest is])
+  (:require phel-aa\image-reader)
+  (:require phel-aa\similar-chars))
+
+(deftest php-logo-image-block-point-to-hist
+  (let [filename "tests/PHP-logo.png"
+        image (image-reader/create-image filename)
+        block-points (image-reader/get-block-points filename)
+        dict (similar-chars/get-dict)
+        string (image-reader/convert dict image block-points)]
+    (is (= "```````____=_____``````
+````__@@@@@==@@@#],_```
+``__@@@@@@pm=@@@@@@>,.`
+`_@@@mmmm=znme=mmme=@p.
+_=@@]Mmmm_MmMmgMmQMQ=@|
+_=@@[m@@MsMM@Msmm@Mme@]
+n@@@=m%2M_md@M_Me=Mn2@@
+~=@@MmwMmnmq]w|mmMme=@]
+`%@=hM=m@m=@]=wc===@@@|
+``v[z_@@@@@@@@Bm@@@@=p`
+````4@@@@@@@@@@@@@=>```
+``````e@2m@=@==>n\"`````" string))))

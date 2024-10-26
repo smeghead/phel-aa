@@ -1,6 +1,5 @@
 (ns phel-aa\similar-chars
-  (:require phel\json)
-  (:require phel-aa\image-block))
+  (:require phel\json))
 
 (def material-directory (format "%s/../../material" __DIR__))
 
