@@ -1,0 +1,23 @@
+(ns phel-aa\similar-chars
+  (:require phel\json)
+  (:require phel-aa\image-block))
+
+(def material-directory (format "%s/../../material" __DIR__))
+
+(defn get-dict []
+  (let [files (php/glob (format "%s/*.json" material-directory))]
+    (map (fn [f]
+           (json/decode (php/file_get_contents f)))
+         files)))
+
+(defn get-similar-char [dict hist]
+  (let [hist-json (json/encode hist)
+        sorted (sort dict (fn [a b]
+                     (let [a-diff (php/levenshtein (a :hist) hist-json)
+                           b-diff (php/levenshtein (b :hist) hist-json)]
+                       (if (> a-diff b-diff)
+                         1
+                         (if (< a-diff b-diff)
+                           -1
+                           0)))))]
+    ((first sorted) :char)))

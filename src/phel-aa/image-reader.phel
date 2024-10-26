@@ -1,3 +1,40 @@
 (ns phel-aa\image-reader
   (:require phel-aa\image-block))
 
+(defstruct image [im])
+
+(defn create-image [filename]
+  (image (php/imagecreatefrompng filename)))
+
+(defstruct block-point [w h])
+
+(defn get-blocks [filename]
+  (let [[w h] (php/getimagesize filename)]
+    (for [h :range [0 (php/intval (/ h image-block/block))]]
+      (for [w :range [0 (php/intval (/ w image-block/block))]]
+        (block-point w h)))))
+
+(defn convert-to-hist [image block-point]
+  (let [points (image-block/get-points)
+        w-offset (* image-block/block (block-point :w))
+        h-offset (* image-block/block (block-point :h))]
+    (map (fn [[x y]]
+           (let [rgb (php/imagecolorat
+                       (image :im)
+                       (+ x h-offset)
+                       (+ y w-offset))]
+             (image-block/get-rgb-average rgb)))
+         points)))
+
+
+#(defn convert-to-hists [filename]
+#  (let [[w h] (php/getimagesize filename)
+#        im (php/imagecreatefrompng filename)
+#        points (image-block/get-points)]
+#    (for [h :range [[0 (php/intval (/ h image-block/block))]]
+#      (for [w :range [[0 (php/intval (/ w image-block/block))]]
+#
+#        hist (map (fn [[x y]]
+#                    (let [rgb (php/imagecolorat im x y)]
+#                      (image-block/get-rgb-average rgb)))
+#                  points)]

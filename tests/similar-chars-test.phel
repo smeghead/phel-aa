@@ -1,0 +1,12 @@
+(ns phel-aa\similar-chars\tests
+  (:require phel\test :refer [deftest is])
+  (:require phel-aa\similar-chars))
+
+(deftest get-dict
+  (let [dict (similar-chars/get-dict)]
+    (is (= 94 (count dict)))))
+
+(deftest a-char
+  (let [dict (similar-chars/get-dict)
+        a-hist [249 248 239 238 251 233 119 74 219 251 239 156 82 206 251 250 249 246 245 251 254 253 252 252 252]]
+    (is (= "A" (similar-chars/get-similar-char dict a-hist)))))
