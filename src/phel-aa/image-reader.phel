@@ -8,18 +8,19 @@
 (defn create-image [filename]
   (image (php/imagecreatefrompng filename)))
 
-(defstruct block-position [w h])
+(defstruct char-cell [w h scale])
 
-(defn get-block-points [filename]
-  (let [[w h] (php/getimagesize filename)]
-    (for [h :range [0 (php/intval (/ h char-block/height))]]
-      (for [w :range [0 (php/intval (/ w char-block/width))]]
-        (block-position w h)))))
+(defn get-char-cells [filename]
+  (let [[w h] (php/getimagesize filename)
+        scale (/ w 80 char-block/width)]
+    (for [h :range [0 (php/intval (/ h (* char-block/height scale)))]]
+      (for [w :range [0 (php/intval (/ w (* char-block/width scale)))]]
+        (char-cell w h scale)))))
 
-(defn convert-to-hist [image block-position]
+(defn convert-to-hist [image char-cell]
   (let [points (char-block/get-points)
-        w-offset (* char-block/width (block-position :w))
-        h-offset (* char-block/height (block-position :h))]
+        w-offset (php/intval (* (* char-block/width (char-cell :scale)) (char-cell :w)))
+        h-offset (php/intval (* (* char-block/height (char-cell :scale)) (char-cell :h)))]
     (map (fn [[x y]]
            (let [rgb (php/imagecolorat
                        (image :im)
@@ -28,11 +29,11 @@
              (char-block/get-rgb-average rgb)))
          points)))
 
-(defn convert [dict image block-points]
+(defn convert [dict image char-cells]
   (str/join "\n" (map (fn [row]
-                        (str/join "" (map (fn [block-position]
-                                       (let [hist (convert-to-hist image block-position)]
+                        (str/join "" (map (fn [char-cell]
+                                       (let [hist (convert-to-hist image char-cell)]
                                          (similar-chars/get-similar-char dict hist)))
                                      row)))
-                      block-points)))
+                      char-cells)))
 
