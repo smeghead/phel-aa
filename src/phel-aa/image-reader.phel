@@ -8,18 +8,18 @@
 (defn create-image [filename]
   (image (php/imagecreatefrompng filename)))
 
-(defstruct block-point [w h])
+(defstruct block-position [w h])
 
 (defn get-block-points [filename]
   (let [[w h] (php/getimagesize filename)]
     (for [h :range [0 (php/intval (/ h image-block/height))]]
       (for [w :range [0 (php/intval (/ w image-block/width))]]
-        (block-point w h)))))
+        (block-position w h)))))
 
-(defn convert-to-hist [image block-point]
+(defn convert-to-hist [image block-position]
   (let [points (image-block/get-points)
-        w-offset (* image-block/width (block-point :w))
-        h-offset (* image-block/height (block-point :h))]
+        w-offset (* image-block/width (block-position :w))
+        h-offset (* image-block/height (block-position :h))]
     (map (fn [[x y]]
            (let [rgb (php/imagecolorat
                        (image :im)
@@ -30,8 +30,8 @@
 
 (defn convert [dict image block-points]
   (str/join "\n" (map (fn [row]
-                        (str/join "" (map (fn [block-point]
-                                       (let [hist (convert-to-hist image block-point)]
+                        (str/join "" (map (fn [block-position]
+                                       (let [hist (convert-to-hist image block-position)]
                                          (similar-chars/get-similar-char dict hist)))
                                      row)))
                       block-points)))

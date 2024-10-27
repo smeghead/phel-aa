@@ -29,7 +29,7 @@
 (deftest php-logo-image-block-point-to-hist
   (let [filename "tests/PHP-logo.png"
         image (image-reader/create-image filename)
-        block-point (image-reader/block-point 0 0)
-        hist (image-reader/convert-to-hist image block-point)]
+        block-position (image-reader/block-position 0 0)
+        hist (image-reader/convert-to-hist image block-position)]
     (is (= [255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255] hist))))
 
