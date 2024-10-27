@@ -1,4 +1,4 @@
-(ns phel-aa\image-block)
+(ns phel-aa\char-block)
 
 (def width 42)
 (def height 42)

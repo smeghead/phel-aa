@@ -1,6 +1,6 @@
 (ns phel-aa\image-reader\tests
   (:require phel\test :refer [deftest is])
-  (:require phel-aa\image-block)
+  (:require phel-aa\char-block)
   (:require phel-aa\image-reader))
 
 (def material-directory (format "%s/../material" __DIR__))
@@ -10,8 +10,8 @@
         im (php/imagecreatefrompng filename)
         hist (map (fn [[x y]]
                     (let [rgb (php/imagecolorat im x y)]
-                      (image-block/get-rgb-average rgb)))
-                  (image-block/get-points))]
+                      (char-block/get-rgb-average rgb)))
+                  (char-block/get-points))]
     (is (= [249 248 239 238 251 233 119 74 219 251 239 156 82 206 251 250 249 246 245 251 254 253 252 252 252] hist))))
 
 (deftest php-logo-image-get-block-points

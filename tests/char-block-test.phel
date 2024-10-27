@@ -1,0 +1,15 @@
+(ns phel-aa\char-block\tests
+  (:require phel\test :refer [deftest is])
+  (:require phel-aa\char-block))
+
+(deftest get-points-test
+  (is (= [[1 1] [1 11] [1 21] [1 31] [1 41] [11 1] [11 11] [11 21] [11 31] [11 41] [21 1] [21 11] [21 21] [21 31] [21 41] [31 1] [31 11] [31 21] [31 31] [31 41] [41 1] [41 11] [41 21] [41 31] [41 41]] (char-block/get-points))))
+
+(deftest get-rgb-average-fff-test
+  (is (= 0xff (char-block/get-rgb-average 0xffffff))))
+
+(deftest get-rgb-average-ccc-test
+  (is (= 0xcc (char-block/get-rgb-average 0xcccccc))))
+
+(deftest get-rgb-average-f00test
+  (is (= 85 (char-block/get-rgb-average 0xff0000))))
