@@ -1,0 +1,15 @@
+(ns phel-aa\main
+  (:require phel\str)
+  (:require phel-aa\image-reader)
+  (:require phel-aa\similar-chars))
+
+(when-not *build-mode*
+  (let [[program command script target-filename] argv]
+    (if (empty? target-filename)
+      (throw (php/new \Exception "require target-filename.")))
+
+    (let [image (image-reader/create-image target-filename)
+          char-cells (image-reader/get-char-cells target-filename)
+          dict (similar-chars/get-dict)]
+      (println (image-reader/convert dict image char-cells)))))
+

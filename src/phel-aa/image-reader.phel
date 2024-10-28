@@ -3,24 +3,26 @@
   (:require phel-aa\char-block)
   (:require phel-aa\similar-chars))
 
-(defstruct image [im])
+(defstruct image [im w h])
 
 (defn create-image [filename]
-  (image (php/imagecreatefrompng filename)))
+  (let [[w h] (php/getimagesize filename)]
+    (image (php/imagecreatefrompng filename) w h)))
 
 (defstruct char-cell [w h scale])
 
 (defn get-char-cells [filename]
   (let [[w h] (php/getimagesize filename)
-        scale (/ w 80 char-block/width)]
-    (for [h :range [0 (php/intval (/ h (* char-block/height scale)))]]
-      (for [w :range [0 (php/intval (/ w (* char-block/width scale)))]]
+        scale (char-block/get-scale w)
+        char-cell-size (* scale 6)]
+    (for [h :range [0 (dec (php/intval (/ (- h char-cell-size) char-cell-size)))]]
+      (for [w :range [0 (dec (php/intval (/ (- w char-cell-size) char-cell-size)))]]
         (char-cell w h scale)))))
 
 (defn convert-to-hist [image char-cell]
-  (let [points (char-block/get-points)
-        w-offset (php/intval (* (* char-block/width (char-cell :scale)) (char-cell :w)))
-        h-offset (php/intval (* (* char-block/height (char-cell :scale)) (char-cell :h)))]
+  (let [points (char-block/get-minimum-points)
+        w-offset (php/intval (* (* 6 (char-cell :scale)) (char-cell :w)))
+        h-offset (php/intval (* (* 6 (char-cell :scale)) (char-cell :h)))]
     (map (fn [[x y]]
            (let [rgb (php/imagecolorat
                        (image :im)

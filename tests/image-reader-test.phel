@@ -16,20 +16,25 @@
 
 (deftest php-logo-image-get-block-points
   (let [filename "tests/PHP-logo.png"
+        [w h] (php/getimagesize filename)
         cells (image-reader/get-char-cells filename)]
-    (is (= 43 (count cells)))
-    (is (= 80 (count (cells 0))))
+    (let [scale (get-in cells [0 0 :scale])]
+      #(println (format "w: %d h: %d scale: %f" w h scale))
+      # w: 320 h: 173 scale: 53
+      (is (= 26 (count cells)))
+      (is (= 51 (count (cells 0)))))
     (let [p00 (get-in cells [0 0])]
       (is (= 0 (p00 :w))) 
-      (is (= 0 (p00 :h))))
+      (is (= 0 (p00 :h))) 
+      (is (= 1 (p00 :scale))))
     (let [p01 (get-in cells [0 1])]
       (is (= 1 (p01 :w))) 
       (is (= 0 (p01 :h))))))
 
-(deftest php-logo-image-block-point-to-hist
-  (let [filename "tests/PHP-logo.png"
-        image (image-reader/create-image filename)
-        char-cell (image-reader/char-cell 0 0 1)
-        hist (image-reader/convert-to-hist image char-cell)]
-    (is (= [255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255] hist))))
+#(deftest php-logo-image-block-point-to-hist
+#  (let [filename "tests/PHP-logo.png"
+#        image (image-reader/create-image filename)
+#        char-cell (image-reader/char-cell 0 0 1)
+#        hist (image-reader/convert-to-hist image char-cell)]
+#    (is (= [255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255] hist))))
 

@@ -21,9 +21,9 @@
     "scripts": {
         "test": [
             "vendor/bin/phel test"
+        ],
+        "phel-aa": [
+            "vendor/bin/phel run src/phel-aa/main.phel"
         ]
-    },
-    "bin": [
-        "bin/zo3ja"
-    ]
+    }
 }

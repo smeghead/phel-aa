@@ -9,6 +9,14 @@
         y :range [1 height block]]
     [x y]))
 
+(defn get-minimum-points []
+  (for [x :range [1 6]
+        y :range [1 6]]
+    [x y]))
+
+(defn get-scale [w]
+  1)
+
 (defn get-rgb-average [rgb]
   (let [r (bit-and (bit-shift-right rgb 16) 0xff)
         g (bit-and (bit-shift-right rgb 8) 0xff)

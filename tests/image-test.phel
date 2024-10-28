@@ -1,4 +1,5 @@
 (ns phel-aa\image\tests
+  (:require phel\str)
   (:require phel\test :refer [deftest is])
   (:require phel-aa\image-reader)
   (:require phel-aa\similar-chars))
@@ -9,15 +10,4 @@
 #        char-cells (image-reader/get-char-cells filename)
 #        dict (similar-chars/get-dict)
 #        string (image-reader/convert dict image char-cells)]
-#    (is (= "```````____=_____``````
-#````__@@@@@==@@@#],_```
-#``__@@@@@@pm=@@@@@@>,.`
-#`_@@@mmmm=znme=mmme=@p.
-#_=@@]Mmmm_MmMmgMmQMQ=@|
-#_=@@[m@@MsMM@Msmm@Mme@]
-#n@@@=m%2M_md@M_Me=Mn2@@
-#~=@@MmwMmnmq]w|mmMme=@]
-#`%@=hM=m@m=@]=wc===@@@|
-#``v[z_@@@@@@@@Bm@@@@=p`
-#````4@@@@@@@@@@@@@=>```
-#``````e@2m@=@==>n\"`````" string))))
+#    (is (str/starts-with? string "```"))))

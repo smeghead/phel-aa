@@ -27,7 +27,6 @@
         black (php/imagecolorallocate im 0 0 0)
         font "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
         filename (format "%s/%s.png" output-directory (php/ord c))]
-    (println filename)
     (php/imagefilledrectangle im 0 0 (dec char-block/width) (dec char-block/height) white)
     (php/imagettftext im font-size 0 width-offset height-offset black font c)
     (dofor [i :range [1 20]]
