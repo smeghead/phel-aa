@@ -9,9 +9,11 @@
         y :range [1 height block]]
     [x y]))
 
+(def minimum-size 6)
+
 (defn get-minimum-points []
-  (for [x :range [1 6]
-        y :range [1 6]]
+  (for [x :range [1 minimum-size]
+        y :range [1 minimum-size]]
     [x y]))
 
 (defn get-scale [w]

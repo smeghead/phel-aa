@@ -4,12 +4,12 @@
   (:require phel-aa\similar-chars))
 
 (when-not *build-mode*
-  (let [[program command script target-filename] argv]
+  (let [[program command script target-filename scale] argv]
     (if (empty? target-filename)
       (throw (php/new \Exception "require target-filename.")))
 
-    (let [image (image-reader/create-image target-filename)
-          char-cells (image-reader/get-char-cells target-filename)
+    (let [image (image-reader/create-image target-filename scale)
+          char-cells (image-reader/get-char-cells image)
           dict (similar-chars/get-dict)]
       (println (image-reader/convert dict image char-cells)))))
 
