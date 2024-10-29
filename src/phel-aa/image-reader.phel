@@ -13,15 +13,19 @@
 
 (defn get-char-cells [image]
   (let [{:w w :h h :scale scale} image
-        char-cell-size (* char-block/minimum-size scale)]
-    (for [h :range [0 (php/intval (/ h char-cell-size))]]
-      (for [w :range [0 (php/intval (/ w char-cell-size))]]
+        char-cell-height (* (+ char-block/minimum-size char-block/minimum-mergin-height) scale)
+        char-cell-width (* (+ char-block/minimum-size char-block/minimum-mergin-width) scale)]
+    (for [h :range [0 (php/intval (/ h char-cell-height))]]
+      (for [w :range [0 (php/intval (/ w char-cell-width))]]
         (char-cell w h scale)))))
 
 (defn convert-to-hist [image char-cell]
   (let [points (char-block/get-minimum-points)
-        w-offset (php/intval (* (* char-block/minimum-size (char-cell :scale)) (char-cell :w)))
-        h-offset (php/intval (* (* char-block/minimum-size (char-cell :scale)) (char-cell :h)))]
+        {:scale scale} image
+        char-cell-height (* (+ char-block/minimum-size char-block/minimum-mergin-height) scale)
+        char-cell-width (* (+ char-block/minimum-size char-block/minimum-mergin-width) scale)
+        w-offset (php/intval (* char-cell-width (char-cell :w)))
+        h-offset (php/intval (* char-cell-height (char-cell :h)))]
     (map (fn [[x y]]
            (let [rgb (php/imagecolorat
                        (image :im)

@@ -21,7 +21,7 @@
     (let [scale (get-in cells [0 0 :scale])]
       #(println (format "w: %d h: %d scale: %f" w h scale))
       # w: 320 h: 173 scale: 53
-      (is (= 28 (count cells)))
+      (is (= 17 (count cells)))
       (is (= 53 (count (cells 0)))))
     (let [p00 (get-in cells [0 0])]
       (is (= 0 (p00 :w))) 
@@ -38,7 +38,7 @@
     (let [scale (get-in cells [0 0 :scale])]
       #(println (format "w: %d h: %d scale: %f" w h scale))
       # w: 320 h: 173 scale: 53
-      (is (= 14 (count cells)))
+      (is (= 8 (count cells)))
       (is (= 26 (count (cells 0)))))
     (let [p00 (get-in cells [0 0])]
       (is (= 0 (p00 :w))) 

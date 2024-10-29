@@ -10,6 +10,8 @@
     [x y]))
 
 (def minimum-size 6)
+(def minimum-mergin-width 0)
+(def minimum-mergin-height 4)
 
 (defn get-minimum-points []
   (for [x :range [1 minimum-size]
