@@ -15,8 +15,8 @@
   (let [[w h] (php/getimagesize filename)
         scale (char-block/get-scale w)
         char-cell-size (* scale 6)]
-    (for [h :range [0 (dec (php/intval (/ (- h char-cell-size) char-cell-size)))]]
-      (for [w :range [0 (dec (php/intval (/ (- w char-cell-size) char-cell-size)))]]
+    (for [h :range [0 (php/intval (/ h char-cell-size))]]
+      (for [w :range [0 (php/intval (/ w char-cell-size))]]
         (char-cell w h scale)))))
 
 (defn convert-to-hist [image char-cell]
