@@ -6,8 +6,14 @@
 (defstruct image [im w h scale])
 
 (defn create-image [filename & [scale]]
-  (let [[w h] (php/getimagesize filename)]
-    (image (php/imagecreatefrompng filename) w h (or scale 1))))
+  (let [[w h] (php/getimagesize filename)
+        ext (php/pathinfo filename php/PATHINFO_EXTENSION)
+        img (case ext
+              "jpeg" (php/imagecreatefromjpeg filename)
+              "jpg" (php/imagecreatefromjpeg filename)
+              "png"  (php/imagecreatefrompng filename)
+              (throw (php/new \Exception "invalid file extension.")))]
+    (image img w h (or scale 1))))
 
 (defstruct char-cell [w h scale])
 
