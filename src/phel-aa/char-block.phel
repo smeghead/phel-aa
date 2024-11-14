@@ -18,9 +18,6 @@
         y :range [1 minimum-size]]
     [x y]))
 
-(defn get-scale [w]
-  1)
-
 (defn get-rgb-average [rgb]
   (let [r (bit-and (bit-shift-right rgb 16) 0xff)
         g (bit-and (bit-shift-right rgb 8) 0xff)
